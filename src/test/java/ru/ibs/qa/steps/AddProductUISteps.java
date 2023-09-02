@@ -41,7 +41,7 @@ public class AddProductUISteps {
         }
     }
 
-    @Допустим("^Пользователь открыл браузер (Chrome|Firefox)$")
+    @Допустим("^пользователь открыл браузер (Chrome|Firefox)$")
     public void userOpenBrowser(String browser) {
         if (browser.equals("Chrome")) {
             driver = new ChromeDriver();
@@ -53,12 +53,12 @@ public class AddProductUISteps {
         wait = new WebDriverWait(driver, Duration.ofSeconds(1, 15));
     }
 
-    @И("Пользователь открыл страницу по адресу {string}")
+    @И("пользователь открыл страницу по адресу {string}")
     public void userOpenProductPage(String url) {
         driver.get(url);
     }
 
-    @И("^Пользователь нажимает на \"(Добавить|Сохранить)\"$")
+    @И("^пользователь нажимает на \"(Добавить|Сохранить)\"$")
     public void userClickButtonAddNewProduct(String nameButton) {
 
         if (nameButton.equals("Добавить")) {
@@ -69,7 +69,7 @@ public class AddProductUISteps {
         }
     }
 
-    @И("^Форма добавления товара \"(Закрылась|Открылась)\"$")
+    @И("^форма добавления товара \"(Закрылась|Открылась)\"$")
     public void checkVisibilityFormAddProduct(String string) {
 
         if (string.equals("Закрылась")) {
@@ -89,7 +89,7 @@ public class AddProductUISteps {
         }
     }
 
-    @И("Заполняются поля товара")
+    @И("заполняются поля товара")
     public void userSetValueFormAddProduct(Map<String, String> dataTable) {
         driver.findElement(By.name(NAME)).sendKeys(dataTable.get("Имя"));
 
@@ -105,7 +105,7 @@ public class AddProductUISteps {
         }
     }
 
-    @И("Значения полей заполнены значениями")
+    @И("значения полей заполнены значениями")
     public void checkValueFormAddProduct(Map<String, String> dataTable) {
         // Проверяем правильность заполнения формы, проверяя все поля
         Assertions.assertAll(
@@ -124,7 +124,7 @@ public class AddProductUISteps {
         );
     }
 
-    @И("В таблице пользователь видит новый товар")
+    @И("в таблице пользователь видит новый товар")
     public void renamePls(Map<String, String> dataTable) {
 
         // Выгружаем список товаров из таблицы
@@ -148,6 +148,4 @@ public class AddProductUISteps {
         // Проверяем что id у товаров уникальные.
         Assertions.assertTrue(UtilsProducts.isUniqueListIndex(productsListAfter), "Товары не получили уникальный ID");
     }
-
-
 }

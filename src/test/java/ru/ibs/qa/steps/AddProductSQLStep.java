@@ -13,25 +13,25 @@ import java.util.Map;
 public class AddProductSQLStep {
     protected DataBaseControl dataBaseControl;
 
-    @Допустим("Пользователь подключен к БД")
+    @Допустим("пользователь подключен к БД")
     public void connectionDataBase() {
         dataBaseControl = new DataBaseControl(
                 new JdbcTemplate(UtilsProducts.getDataSourceHikari()));
     }
 
-    @И("Проверка таблица {string} существует в БД")
+    @И("проверка таблица {string} существует в БД")
     public void checkTableExists(String nameTable) {
         dataBaseControl.selectAllFrom(nameTable);
     }
 
-    @И("Добавляем новый товар в БД")
+    @И("добавляем новый товар в БД")
     public void addProductToDatabase(Map<String, String> dataTable) {
         dataBaseControl.addProduct(new Product(dataTable.get("Имя"),
                 dataTable.get("Тип"),
                 Boolean.parseBoolean(dataTable.get("Экзотический"))));
     }
 
-    @И("^Проверка (отсутсвия|присутсвия) товара в БД$")
+    @И("^проверка (отсутсвия|присутсвия) товара в БД$")
     public void checkProductInDatabase(String string, Map<String, String> dataTable) {
         Product product = new Product(
                 dataTable.get("Имя"),
@@ -49,7 +49,7 @@ public class AddProductSQLStep {
         }
     }
 
-    @И("Удаляем товар из БД")
+    @И("удаляем товар из БД")
     public void removedProductFromDatabase(Map<String, String> dataTable) {
         dataBaseControl.deleteProduct(
                 new Product(
