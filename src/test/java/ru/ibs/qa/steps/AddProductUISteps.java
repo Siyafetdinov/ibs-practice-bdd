@@ -124,15 +124,13 @@ public class AddProductUISteps {
     @И("в таблице пользователь видит новый товар")
     public void checkProduct(Map<String, String> dataTable) {
 
-        // Выгружаем список товаров из таблицы
+        // Парсим список товаров из таблицы
         List<Product> productsListAfter = UtilsProducts.getParseListProduct(driver.findElements(By.xpath(TABLE_PRODUCT)));
 
-
-        // Проверяем последний товар. И Проверяем все поля
+        // Находим добавленный товар по имени
         Product productCheck = productsListAfter.stream()
                 .filter(product -> product.getName().equals(dataTable.get("Имя")))
                 .findFirst().orElse(null);
-
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(
