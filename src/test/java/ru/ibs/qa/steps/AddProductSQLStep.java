@@ -3,20 +3,17 @@ package ru.ibs.qa.steps;
 import io.cucumber.java.ru.Допустим;
 import io.cucumber.java.ru.И;
 import org.junit.jupiter.api.Assertions;
-import org.springframework.jdbc.core.JdbcTemplate;
 import ru.ibs.dataBaseControl.DataBaseControl;
 import ru.ibs.objects.Product;
-import ru.ibs.utils.UtilsProducts;
 
 import java.util.Map;
 
 public class AddProductSQLStep {
-    protected DataBaseControl dataBaseControl;
+    private DataBaseControl dataBaseControl;
 
     @Допустим("пользователь подключен к БД")
     public void connectionDataBase() {
-        dataBaseControl = new DataBaseControl(
-                new JdbcTemplate(UtilsProducts.getDataSourceHikari()));
+        dataBaseControl = DataBaseControl.getInstance();
     }
 
     @И("проверка таблица {string} существует в БД")

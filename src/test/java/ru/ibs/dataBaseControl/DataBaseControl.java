@@ -3,12 +3,21 @@ package ru.ibs.dataBaseControl;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ru.ibs.objects.Product;
+import ru.ibs.utils.UtilsProducts;
 
 public class DataBaseControl {
+    private static DataBaseControl dataBaseControl;
     private static JdbcTemplate jdbcTemplate;
-    public DataBaseControl(JdbcTemplate jdbcTemplate) {
+    public static DataBaseControl getInstance() {
+        if (dataBaseControl == null) {
+            dataBaseControl = new DataBaseControl(new JdbcTemplate(UtilsProducts.getDataSourceHikari()));
+        }
+        return dataBaseControl;
+    }
+    private DataBaseControl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     public void selectAllFrom(String nameTable) {
         jdbcTemplate.execute("SELECT * FROM " + nameTable);
     }
