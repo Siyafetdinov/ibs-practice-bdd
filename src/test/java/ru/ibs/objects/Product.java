@@ -1,5 +1,7 @@
 package ru.ibs.objects;
 
+import io.qameta.allure.internal.shadowed.jackson.databind.annotation.JsonPOJOBuilder;
+
 import java.util.Objects;
 
 public class Product {

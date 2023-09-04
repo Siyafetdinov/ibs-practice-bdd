@@ -21,6 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class AddProductUISteps {
@@ -64,7 +65,6 @@ public class AddProductUISteps {
         if (nameButton.equals("Добавить")) {
             driver.findElement(By.xpath(BUTTON_ADD_PRODUCT)).click();
         } else {
-            // Сохраняем товар
             driver.findElement(By.id(BUTTON_SAVE_PRODUCT)).click();
         }
     }
@@ -73,14 +73,12 @@ public class AddProductUISteps {
     public void checkVisibilityFormAddProduct(String string) {
 
         if (string.equals("Закрылась")) {
-            // Проверяем что форма добавления товара открылась
             Assertions.assertTrue(
                     wait.until(ExpectedConditions.invisibilityOf(
                             driver.findElement(By.className(FORM_ADDED_PRODUCT)))),
                     "Окно добавления товара не закрылось"
             );
         } else {
-            // Провеярем, что форма добавления товара закрылась
             Assertions.assertTrue(
                     wait.until(ExpectedConditions.visibilityOf(
                             driver.findElement(By.className(FORM_ADDED_PRODUCT)))).isDisplayed(),
@@ -107,7 +105,6 @@ public class AddProductUISteps {
 
     @И("значения полей заполнены значениями")
     public void checkValueFormAddProduct(Map<String, String> dataTable) {
-        // Проверяем правильность заполнения формы, проверяя все поля
         Assertions.assertAll(
                 () -> Assertions.assertEquals(
                         dataTable.get("Имя"),
@@ -125,13 +122,17 @@ public class AddProductUISteps {
     }
 
     @И("в таблице пользователь видит новый товар")
-    public void renamePls(Map<String, String> dataTable) {
+    public void checkProduct(Map<String, String> dataTable) {
 
         // Выгружаем список товаров из таблицы
         List<Product> productsListAfter = UtilsProducts.getParseListProduct(driver.findElements(By.xpath(TABLE_PRODUCT)));
 
+
         // Проверяем последний товар. И Проверяем все поля
-        Product productCheck = productsListAfter.get(productsListAfter.size() - 1);
+        Product productCheck = productsListAfter.stream()
+                .filter(product -> product.getName().equals(dataTable.get("Имя")))
+                .findFirst().orElse(null);
+
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(
